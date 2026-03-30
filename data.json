@@ -1,6 +1,38 @@
 {
-  "sequence": 1000,
+  "sequence": 1002,
   "bookings": [
+    {
+      "id": "edb1a2f8-8f16-4984-bbdd-f6bccd2e7743",
+      "reference": "VRD-1002",
+      "date": "2026-03-31",
+      "time": "12:30 PM",
+      "guests": "2 Guests",
+      "fname": "aa",
+      "lname": "ssr",
+      "email": "shanmukh@gmail.com",
+      "phone": "274",
+      "notes": "",
+      "status": "filled",
+      "created": "2026-03-30T21:48:51.309Z",
+      "updatedAt": "2026-03-30T21:49:37.606Z",
+      "notificationStatus": "skipped: SMTP not configured"
+    },
+    {
+      "id": "7086702e-17aa-4c40-a7e9-1159f6b567e7",
+      "reference": "VRD-1001",
+      "date": "2026-03-31",
+      "time": "12:00 PM",
+      "guests": "2 Guests",
+      "fname": "Arjun",
+      "lname": "Reddy",
+      "email": "yesupradhu@gmail.com",
+      "phone": "1234456789",
+      "notes": "",
+      "status": "filled",
+      "created": "2026-03-30T21:48:07.264Z",
+      "updatedAt": "2026-03-30T21:49:38.887Z",
+      "notificationStatus": "skipped: SMTP not configured"
+    },
     {
       "id": "040c36aa-c778-4b2f-b989-6884f2b30de2",
       "reference": "VRD-1001",
@@ -12,10 +44,10 @@
       "email": "aarav@example.com",
       "phone": "+91 98765 11111",
       "notes": "Window seat preferred",
-      "status": "pending",
+      "status": "filled",
       "created": "2026-03-30T17:10:51.340Z",
-      "updatedAt": "2026-03-30T17:10:51.340Z",
-      "notificationStatus": "not-sent"
+      "updatedAt": "2026-03-30T21:49:40.273Z",
+      "notificationStatus": "skipped: SMTP not configured"
     },
     {
       "id": "b1100a11-9b89-4430-9c70-964a627f0731",
@@ -28,10 +60,10 @@
       "email": "nisha@example.com",
       "phone": "+91 98765 22222",
       "notes": "Birthday dinner",
-      "status": "confirmed",
+      "status": "filled",
       "created": "2026-03-30T17:10:51.340Z",
-      "updatedAt": "2026-03-30T17:10:51.340Z",
-      "notificationStatus": "sent-demo"
+      "updatedAt": "2026-03-30T21:49:41.881Z",
+      "notificationStatus": "skipped: SMTP not configured"
     }
   ]
 }
