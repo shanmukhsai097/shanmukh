@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verdana — Fine Dining</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #f9f7f2;
+    --white: #ffffff;
+    --sage: #7a9e7e;
+    --sage-light: #c8dbc9;
+    --sage-dark: #3d5c41;
+    --sage-pale: #eef4ee;
+    --charcoal: #2c2c2a;
+    --muted: #6b7280;
+    --border: #dde8de;
+    --gold: #b5924a;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Jost', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--charcoal);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(249,247,242,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem; height: 64px;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem; font-weight: 300; letter-spacing: 0.12em;
+    color: var(--sage-dark);
+    cursor: pointer;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; color: var(--muted); font-weight: 400;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--sage-dark); }
+  .nav-book {
+    background: var(--sage-dark); color: #fff;
+    border: none; padding: 0.5rem 1.4rem;
+    font-family: var(--font-body); font-size: 0.75rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .nav-book:hover { background: var(--sage); }
+
+  /* ── PAGES ── */
+  .page { display: none; min-height: 100vh; padding-top: 64px; }
+  .page.active { display: block; }
+
+  /* ── HOME ── */
+  .hero {
+    height: calc(100vh - 64px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    background:
+      linear-gradient(to bottom, rgba(249,247,242,0.15), rgba(249,247,242,0.85)),
+      url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80') center/cover no-repeat;
+    position: relative;
+  }
+  .hero-badge {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-badge::before, .hero-badge::after {
+    content: ''; display: block; width: 40px; height: 1px; background: var(--sage-light);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300; line-height: 1;
+    color: var(--charcoal); letter-spacing: 0.04em;
+  }
+  .hero h1 em { font-style: italic; color: var(--sage-dark); }
+  .hero-sub {
+    margin-top: 1.5rem; font-size: 1rem; color: var(--muted);
+    font-weight: 300; letter-spacing: 0.05em;
+  }
+  .hero-ctas { margin-top: 2.5rem; display: flex; gap: 1rem; }
+  .btn-primary {
+    background: var(--sage-dark); color: #fff; border: none;
+    padding: 0.85rem 2.2rem; font-family: var(--font-body);
+    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--sage); }
+  .btn-outline {
+    background: transparent; color: var(--sage-dark);
+    border: 1px solid var(--sage-dark);
+    padding: 0.85rem 2.2rem; font-family: var(--font-body);
+    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--sage-pale); }
+
+  /* Home sections */
+  .section { padding: 6rem 3rem; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300; color: var(--charcoal); line-height: 1.2;
+  }
+  .section-title em { font-style: italic; color: var(--sage-dark); }
+
+  .highlights { background: var(--white); }
+  .highlights-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 3rem;
+    margin-top: 3.5rem;
+  }
+  .highlight-card { text-align: center; }
+  .highlight-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--sage-pale); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem; font-size: 1.4rem;
+  }
+  .highlight-card h3 {
+    font-family: var(--font-display); font-size: 1.3rem; font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .highlight-card p { font-size: 0.9rem; color: var(--muted); }
+
+  .about-split {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .about-img {
+    aspect-ratio: 4/5; object-fit: cover; width: 100%;
+    border-radius: 2px;
+  }
+  .about-text p { color: var(--muted); margin: 1rem 0 1.5rem; line-height: 1.9; }
+  .about-stat {
+    display: flex; gap: 3rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: var(--font-display); font-size: 2.5rem; font-weight: 300;
+    color: var(--sage-dark);
+  }
+  .stat-label { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+
+  /* ── MENU ── */
+  .menu-page { background: var(--white); }
+  .menu-hero {
+    background: var(--sage-pale);
+    padding: 4rem 3rem 3rem; text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .menu-tabs {
+    display: flex; justify-content: center; gap: 0; margin-top: 2rem;
+    border: 1px solid var(--border); display: inline-flex; background: var(--white);
+  }
+  .menu-tab {
+    padding: 0.6rem 1.8rem; font-size: 0.75rem; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer; border: none;
+    background: transparent; font-family: var(--font-body); color: var(--muted);
+    transition: all 0.2s; border-right: 1px solid var(--border);
+  }
+  .menu-tab:last-child { border-right: none; }
+  .menu-tab.active { background: var(--sage-dark); color: #fff; }
+  .menu-content { padding: 4rem 3rem; max-width: 900px; margin: 0 auto; }
+  .menu-category { display: none; }
+  .menu-category.active { display: block; }
+  .menu-category-title {
+    font-family: var(--font-display); font-size: 1.8rem; font-weight: 300;
+    font-style: italic; color: var(--sage-dark); margin-bottom: 2rem;
+    padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+  }
+  .menu-items { display: grid; gap: 1.5rem; }
+  .menu-item {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 1.25rem; border: 1px solid var(--border); background: var(--cream);
+  }
+  .menu-item-info h4 {
+    font-family: var(--font-display); font-size: 1.15rem; font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+  .menu-item-info p { font-size: 0.85rem; color: var(--muted); max-width: 400px; }
+  .menu-item-tags { display: flex; gap: 0.4rem; margin-top: 0.4rem; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 2px;
+  }
+  .tag-veg { background: #eaf3de; color: #3b6d11; }
+  .tag-gf { background: #eef4ee; color: #3d5c41; }
+  .tag-sig { background: #faeeda; color: #854f0b; }
+  .menu-price {
+    font-family: var(--font-display); font-size: 1.2rem; font-weight: 400;
+    color: var(--gold); white-space: nowrap; margin-left: 1.5rem;
+  }
+
+  /* ── GALLERY ── */
+  .gallery-page { background: var(--cream); }
+  .gallery-hero {
+    padding: 4rem 3rem 3rem; text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 12px; padding: 2rem 3rem;
+  }
+  .gallery-item {
+    overflow: hidden; position: relative; cursor: pointer;
+    background: var(--border);
+  }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease; display: block;
+  }
+  .gallery-item:hover img { transform: scale(1.04); }
+  .gallery-item.tall { grid-row: span 2; }
+  .gallery-item.wide { grid-column: span 2; }
+  .gallery-item { height: 280px; }
+  .gallery-item.tall { height: auto; min-height: 572px; }
+  .gallery-overlay {
+    position: absolute; inset: 0; background: rgba(61,92,65,0);
+    display: flex; align-items: flex-end; padding: 1rem;
+    transition: background 0.3s;
+  }
+  .gallery-item:hover .gallery-overlay { background: rgba(61,92,65,0.35); }
+  .gallery-caption {
+    color: #fff; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0; transform: translateY(8px); transition: all 0.3s;
+  }
+  .gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+
+  /* Lightbox */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.88); align-items: center; justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; }
+  .lightbox-close {
+    position: absolute; top: 1.5rem; right: 2rem; color: #fff;
+    font-size: 2rem; cursor: pointer; background: none; border: none;
+    font-family: var(--font-body);
+  }
+
+  /* ── BOOKING ── */
+  .booking-page { background: var(--sage-pale); }
+  .booking-hero {
+    padding: 4rem 3rem 3rem; text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+  .booking-container { max-width: 640px; margin: 3rem auto; padding: 0 2rem 4rem; }
+  .booking-form {
+    background: var(--white); padding: 2.5rem;
+    border: 1px solid var(--border);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label {
+    display: block; font-size: 0.72rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 0.7rem 0.9rem;
+    border: 1px solid var(--border); background: var(--cream);
+    font-family: var(--font-body); font-size: 0.95rem; color: var(--charcoal);
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--sage);
+  }
+  .form-group select { appearance: none; cursor: pointer; }
+  .form-section-title {
+    font-family: var(--font-display); font-size: 1rem; font-weight: 400;
+    letter-spacing: 0.05em; color: var(--sage-dark);
+    margin: 1.75rem 0 1rem; padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .slot-grid {
+    display: grid; grid-template-columns: repeat(4,1fr); gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .slot-btn {
+    padding: 0.55rem; font-size: 0.8rem; border: 1px solid var(--border);
+    background: var(--cream); cursor: pointer; font-family: var(--font-body);
+    color: var(--charcoal); transition: all 0.2s; text-align: center;
+  }
+  .slot-btn:hover:not(.filled) { border-color: var(--sage); background: var(--sage-pale); }
+  .slot-btn.selected { background: var(--sage-dark); color: #fff; border-color: var(--sage-dark); }
+  .slot-btn.filled { background: #f3f3f3; color: #bbb; cursor: not-allowed; text-decoration: line-through; }
+  .slot-legend { display: flex; gap: 1.5rem; font-size: 0.75rem; color: var(--muted); margin-bottom: 1rem; }
+  .slot-legend span { display: flex; align-items: center; gap: 0.4rem; }
+  .legend-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .legend-avail { background: var(--sage-light); }
+  .legend-filled { background: #ddd; }
+  .legend-sel { background: var(--sage-dark); }
+  .submit-btn {
+    width: 100%; padding: 1rem; background: var(--sage-dark); color: #fff;
+    border: none; font-family: var(--font-body); font-size: 0.82rem;
+    letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+    margin-top: 1rem; transition: background 0.2s;
+  }
+  .submit-btn:hover { background: var(--sage); }
+  .confirmation-box {
+    display: none; background: var(--sage-pale);
+    border: 1px solid var(--sage-light); padding: 2rem; text-align: center;
+    margin-top: 1.5rem;
+  }
+  .confirmation-box.show { display: block; }
+  .confirm-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .confirm-title {
+    font-family: var(--font-display); font-size: 1.5rem; font-weight: 300;
+    color: var(--sage-dark); margin-bottom: 0.5rem;
+  }
+  .confirm-msg { font-size: 0.9rem; color: var(--muted); }
+  .confirm-ref {
+    margin-top: 1rem; padding: 0.6rem 1.2rem;
+    background: var(--white); border: 1px solid var(--border);
+    display: inline-block; font-family: var(--font-display);
+    font-size: 1.1rem; color: var(--sage-dark); letter-spacing: 0.1em;
+  }
+
+  /* ── CONTACT ── */
+  .contact-page { background: var(--white); }
+  .contact-hero {
+    padding: 4rem 3rem 3rem; text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--sage-pale);
+  }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    max-width: 900px; margin: 4rem auto; padding: 0 3rem;
+  }
+  .contact-card {
+    padding: 2rem; border: 1px solid var(--border); background: var(--cream);
+  }
+  .contact-card h3 {
+    font-family: var(--font-display); font-size: 1.3rem; font-weight: 400;
+    margin-bottom: 1.25rem; color: var(--sage-dark);
+  }
+  .contact-item { display: flex; gap: 1rem; margin-bottom: 1rem; }
+  .contact-ico {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--sage-pale); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0;
+  }
+  .contact-item-text strong { display: block; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .contact-item-text span { font-size: 0.95rem; color: var(--charcoal); }
+  .hours-row { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-row span:last-child { color: var(--sage-dark); }
+
+  /* ── ADMIN ── */
+  .admin-page { background: var(--cream); }
+  .admin-login {
+    min-height: calc(100vh - 64px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .admin-login-box {
+    background: var(--white); padding: 3rem; border: 1px solid var(--border);
+    width: 380px; text-align: center;
+  }
+  .admin-login-box h2 {
+    font-family: var(--font-display); font-size: 1.8rem; font-weight: 300;
+    color: var(--sage-dark); margin-bottom: 0.25rem;
+  }
+  .admin-login-box p { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+  .admin-login-box input {
+    width: 100%; padding: 0.7rem 0.9rem; margin-bottom: 1rem;
+    border: 1px solid var(--border); background: var(--cream);
+    font-family: var(--font-body); font-size: 0.95rem;
+  }
+  .admin-error { color: #a32d2d; font-size: 0.82rem; margin-bottom: 0.75rem; display: none; }
+  .admin-dashboard { padding: 2.5rem 3rem; }
+  .admin-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+  }
+  .admin-header h2 {
+    font-family: var(--font-display); font-size: 1.8rem; font-weight: 300; color: var(--sage-dark);
+  }
+  .admin-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 2.5rem; }
+  .admin-stat {
+    background: var(--white); border: 1px solid var(--border); padding: 1.25rem;
+    text-align: center;
+  }
+  .admin-stat-num {
+    font-family: var(--font-display); font-size: 2.2rem; font-weight: 300; color: var(--sage-dark);
+  }
+  .admin-stat-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .admin-filters { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .filter-btn {
+    padding: 0.45rem 1.1rem; font-size: 0.75rem; letter-spacing: 0.08em;
+    text-transform: uppercase; border: 1px solid var(--border); background: var(--white);
+    cursor: pointer; font-family: var(--font-body); color: var(--muted); transition: all 0.2s;
+  }
+  .filter-btn.active { background: var(--sage-dark); color: #fff; border-color: var(--sage-dark); }
+  .bookings-table { width: 100%; border-collapse: collapse; background: var(--white); }
+  .bookings-table th {
+    text-align: left; padding: 0.85rem 1rem;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); background: var(--sage-pale);
+    border-bottom: 1px solid var(--border);
+  }
+  .bookings-table td {
+    padding: 1rem; font-size: 0.88rem; border-bottom: 1px solid var(--border);
+  }
+  .bookings-table tr:last-child td { border-bottom: none; }
+  .bookings-table tr:hover td { background: var(--sage-pale); }
+  .status-badge {
+    display: inline-block; padding: 3px 10px; font-size: 0.68rem;
+    letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px;
+  }
+  .status-pending { background: #faeeda; color: #854f0b; }
+  .status-confirmed { background: #eaf3de; color: #3b6d11; }
+  .status-filled { background: #f1efe8; color: #5f5e5a; }
+  .action-btn {
+    padding: 0.35rem 0.9rem; font-size: 0.72rem; letter-spacing: 0.06em;
+    border: 1px solid; cursor: pointer; font-family: var(--font-body);
+    margin-right: 0.3rem; transition: all 0.2s;
+  }
+  .btn-confirm { border-color: var(--sage); color: var(--sage-dark); background: #fff; }
+  .btn-confirm:hover { background: var(--sage-pale); }
+  .btn-fill { border-color: #b5924a; color: #b5924a; background: #fff; }
+  .btn-fill:hover { background: #fdf7ee; }
+  .logout-btn {
+    padding: 0.5rem 1.2rem; background: none; border: 1px solid var(--border);
+    font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; color: var(--muted);
+    transition: all 0.2s;
+  }
+  .logout-btn:hover { border-color: var(--muted); color: var(--charcoal); }
+  .empty-state {
+    text-align: center; padding: 4rem 2rem; color: var(--muted); font-size: 0.9rem;
+    background: var(--white); border: 1px solid var(--border);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.2rem; }
+    .nav-links { display: none; }
+    .section { padding: 3rem 1.5rem; }
+    .highlights-grid { grid-template-columns: 1fr; }
+    .about-split { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; padding: 1rem; }
+    .gallery-item.wide { grid-column: span 1; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .admin-stats { grid-template-columns: 1fr 1fr; }
+    .slot-grid { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Verd<span>a</span>na</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home')">Home</a></li>
+    <li><a href="#" onclick="showPage('menu')">Menu</a></li>
+    <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
+    <li><a href="#" onclick="showPage('booking')">Reservations</a></li>
+    <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+    <li><a href="#" onclick="showPage('admin')" style="color:var(--sage-dark)">Admin</a></li>
+  </ul>
+  <button class="nav-book" onclick="showPage('booking')">Reserve a Table</button>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-badge">Est. 2019 · Hyderabad</div>
+    <h1>Where <em>Nature</em><br>Meets the Table</h1>
+    <p class="hero-sub">Seasonal menus, curated wines, and unhurried evenings</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="showPage('booking')">Reserve a Table</button>
+      <button class="btn-outline" onclick="showPage('menu')">Explore Menu</button>
+    </div>
+  </div>
+
+  <div class="section highlights white" style="background:var(--white)">
+    <div style="text-align:center; margin-bottom: 1rem;">
+      <div class="section-label">Why Verdana</div>
+      <div class="section-title">An <em>Uncompromising</em> Experience</div>
+    </div>
+    <div class="highlights-grid">
+      <div class="highlight-card">
+        <div class="highlight-icon">🌿</div>
+        <h3>Farm to Fork</h3>
+        <p>Ingredients sourced from curated local farms and artisan producers every single morning.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🍷</div>
+        <h3>Sommelier-Curated</h3>
+        <p>A cellar of over 200 wines, paired to each dish by our resident sommelier.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🏛️</div>
+        <h3>Private Dining</h3>
+        <p>Intimate private rooms available for corporate events and celebrations up to 30 guests.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section about-split" style="max-width:1100px; margin:0 auto;">
+    <div>
+      <img class="about-img"
+        src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800&q=80"
+        alt="Restaurant interior" />
+    </div>
+    <div class="about-text">
+      <div class="section-label">Our Story</div>
+      <div class="section-title">A Labour of <em>Love</em></div>
+      <p>Verdana was born from a simple belief — that exceptional food should be paired with an equally exceptional atmosphere. Our head chef brings two decades of Michelin-starred experience to every plate, blending classical French technique with the bold flavors of South India.</p>
+      <p>Every dish is a conversation between tradition and the season. We change our menu quarterly, letting the land guide our kitchen.</p>
+      <div class="about-stat">
+        <div><div class="stat-num">14</div><div class="stat-label">Awards Won</div></div>
+        <div><div class="stat-num">200+</div><div class="stat-label">Wines Curated</div></div>
+        <div><div class="stat-num">5★</div><div class="stat-label">Avg. Rating</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU PAGE -->
+<div id="page-menu" class="page menu-page">
+  <div class="menu-hero">
+    <div class="section-label">Verdana Kitchen</div>
+    <div class="section-title" style="margin-bottom:1.5rem">Seasonal <em>Menu</em></div>
+    <div class="menu-tabs">
+      <button class="menu-tab active" onclick="switchTab('starters')">Starters</button>
+      <button class="menu-tab" onclick="switchTab('mains')">Mains</button>
+      <button class="menu-tab" onclick="switchTab('desserts')">Desserts</button>
+      <button class="menu-tab" onclick="switchTab('drinks')">Drinks</button>
+    </div>
+  </div>
+
+  <div class="menu-content">
+    <!-- Starters -->
+    <div id="tab-starters" class="menu-category active">
+      <div class="menu-category-title">Starters & Small Plates</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Burrata & Heirloom Tomato</h4>
+            <p>Creamy burrata, vine-ripened tomatoes, aged balsamic, fresh basil oil</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span><span class="tag tag-gf">Gluten Free</span></div>
+          </div>
+          <div class="menu-price">₹890</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Seared Scallops</h4>
+            <p>Hand-dived scallops, cauliflower purée, pancetta crisp, herb oil</p>
+            <div class="menu-item-tags"><span class="tag tag-gf">Gluten Free</span><span class="tag tag-sig">Chef's Signature</span></div>
+          </div>
+          <div class="menu-price">₹1,490</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Truffle Arancini</h4>
+            <p>Crisp risotto balls with black truffle, parmesan foam, micro herbs</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span></div>
+          </div>
+          <div class="menu-price">₹750</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Foie Gras Torchon</h4>
+            <p>Sauternes-poached foie gras, brioche toast, fig compote, pickled mustard seeds</p>
+            <div class="menu-item-tags"><span class="tag tag-sig">Chef's Signature</span></div>
+          </div>
+          <div class="menu-price">₹1,950</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mains -->
+    <div id="tab-mains" class="menu-category">
+      <div class="menu-category-title">Mains</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Pan-Roasted Duck Breast</h4>
+            <p>Sous-vide duck, cherry jus, dauphinoise potato, wilted spinach</p>
+            <div class="menu-item-tags"><span class="tag tag-gf">Gluten Free</span><span class="tag tag-sig">Chef's Signature</span></div>
+          </div>
+          <div class="menu-price">₹2,490</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Black Truffle Risotto</h4>
+            <p>Carnaroli rice, aged parmesan, fresh black truffle, chive oil</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span><span class="tag tag-gf">Gluten Free</span></div>
+          </div>
+          <div class="menu-price">₹1,990</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Wagyu Beef Tenderloin</h4>
+            <p>A5 Wagyu, bone marrow butter, roasted shallots, seasonal vegetables</p>
+            <div class="menu-item-tags"><span class="tag tag-sig">Chef's Signature</span></div>
+          </div>
+          <div class="menu-price">₹4,200</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Halibut en Papillote</h4>
+            <p>Atlantic halibut, lemon butter, capers, asparagus, cherry tomatoes</p>
+            <div class="menu-item-tags"><span class="tag tag-gf">Gluten Free</span></div>
+          </div>
+          <div class="menu-price">₹2,100</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desserts -->
+    <div id="tab-desserts" class="menu-category">
+      <div class="menu-category-title">Desserts & Mignardises</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Valrhona Chocolate Fondant</h4>
+            <p>Warm dark chocolate heart, vanilla bean ice cream, gold leaf</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span><span class="tag tag-sig">Chef's Signature</span></div>
+          </div>
+          <div class="menu-price">₹690</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Tarte Tatin</h4>
+            <p>Caramelised apple tart, crème fraîche, calvados anglaise</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span></div>
+          </div>
+          <div class="menu-price">₹590</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Cheese Board Selection</h4>
+            <p>Five artisan cheeses, quince paste, candied walnuts, sourdough crackers</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span></div>
+          </div>
+          <div class="menu-price">₹990</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drinks -->
+    <div id="tab-drinks" class="menu-category">
+      <div class="menu-category-title">Beverages & Wines</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Verdana Signature Martini</h4>
+            <p>Hendricks gin, cucumber, elderflower tonic, fresh dill</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span></div>
+          </div>
+          <div class="menu-price">₹890</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Pouilly-Fumé, Didier Dagueneau</h4>
+            <p>Loire Valley, France. Crisp, mineral-driven Sauvignon Blanc</p>
+          </div>
+          <div class="menu-price">₹3,200</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Garden Mocktail</h4>
+            <p>Fresh cucumber, mint, green apple, lime, sparkling water</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span><span class="tag tag-gf">Gluten Free</span></div>
+          </div>
+          <div class="menu-price">₹490</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Selection of Teas</h4>
+            <p>Darjeeling first flush, Jasmine pearl, Earl Grey, Chamomile</p>
+            <div class="menu-item-tags"><span class="tag tag-veg">Vegetarian</span><span class="tag tag-gf">Gluten Free</span></div>
+          </div>
+          <div class="menu-price">₹350</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY PAGE -->
+<div id="page-gallery" class="page gallery-page">
+  <div class="gallery-hero">
+    <div class="section-label">Visual Story</div>
+    <div class="section-title">The <em>Verdana</em> Experience</div>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item tall" onclick="openLightbox('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80')">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Dining room" />
+      <div class="gallery-overlay"><div class="gallery-caption">Main Dining Room</div></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80')">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="Plated dish" />
+      <div class="gallery-overlay"><div class="gallery-caption">Seasonal Plates</div></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1200&q=80')">
+      <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&q=80" alt="Restaurant entrance" />
+      <div class="gallery-overlay"><div class="gallery-caption">The Entrance</div></div>
+    </div>
+    <div class="gallery-item wide" onclick="openLightbox('https://images.unsplash.com/photo-1485963631004-f2f00b1d6606?w=1200&q=80')">
+      <img src="https://images.unsplash.com/photo-1485963631004-f2f00b1d6606?w=900&q=80" alt="Charcuterie board" />
+      <div class="gallery-overlay"><div class="gallery-caption">Artisan Cheese Board</div></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1510628314141-9044f8a4a57c?w=1200&q=80')">
+      <img src="https://images.unsplash.com/photo-1510628314141-9044f8a4a57c?w=800&q=80" alt="Bar area" />
+      <div class="gallery-overlay"><div class="gallery-caption">The Bar</div></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1200&q=80')">
+      <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=800&q=80" alt="Wine cellar" />
+      <div class="gallery-overlay"><div class="gallery-caption">Wine Cellar</div></div>
+    </div>
+    <div class="gallery-item wide" onclick="openLightbox('https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?w=1200&q=80')">
+      <img src="https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?w=900&q=80" alt="Private dining" />
+      <div class="gallery-overlay"><div class="gallery-caption">Private Dining Room</div></div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1482275548304-a58859dc31b7?w=1200&q=80')">
+      <img src="https://images.unsplash.com/photo-1482275548304-a58859dc31b7?w=800&q=80" alt="Coffee service" />
+      <div class="gallery-overlay"><div class="gallery-caption">Coffee Service</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightbox-img" src="" alt="Gallery" onclick="event.stopPropagation()" />
+</div>
+
+<!-- BOOKING PAGE -->
+<div id="page-booking" class="page booking-page">
+  <div class="booking-hero">
+    <div class="section-label">Reservations</div>
+    <div class="section-title">Reserve Your <em>Table</em></div>
+    <p style="color:var(--muted);margin-top:0.5rem;font-size:0.9rem">We recommend booking at least 48 hours in advance</p>
+  </div>
+
+  <div class="booking-container">
+    <div class="booking-form" id="booking-form-wrap">
+      <div class="section-label">Reservation Details</div>
+
+      <div class="form-row" style="margin-top:1rem">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="book-date" min="" />
+        </div>
+        <div class="form-group">
+          <label>Guests</label>
+          <select id="book-guests">
+            <option>1 Guest</option>
+            <option selected>2 Guests</option>
+            <option>3 Guests</option>
+            <option>4 Guests</option>
+            <option>5 Guests</option>
+            <option>6 Guests</option>
+            <option>7–10 Guests (contact us)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Select a Time Slot</label>
+        <div class="slot-legend">
+          <span><div class="legend-dot legend-avail"></div> Available</span>
+          <span><div class="legend-dot legend-filled"></div> Filled</span>
+          <span><div class="legend-dot legend-sel"></div> Your selection</span>
+        </div>
+        <div class="slot-grid" id="slot-grid">
+          <button class="slot-btn filled" disabled>12:00 PM</button>
+          <button class="slot-btn" onclick="selectSlot(this)">12:30 PM</button>
+          <button class="slot-btn filled" disabled>1:00 PM</button>
+          <button class="slot-btn" onclick="selectSlot(this)">1:30 PM</button>
+          <button class="slot-btn" onclick="selectSlot(this)">2:00 PM</button>
+          <button class="slot-btn filled" disabled>2:30 PM</button>
+          <button class="slot-btn" onclick="selectSlot(this)">7:00 PM</button>
+          <button class="slot-btn" onclick="selectSlot(this)">7:30 PM</button>
+          <button class="slot-btn filled" disabled>8:00 PM</button>
+          <button class="slot-btn" onclick="selectSlot(this)">8:30 PM</button>
+          <button class="slot-btn" onclick="selectSlot(this)">9:00 PM</button>
+          <button class="slot-btn" onclick="selectSlot(this)">9:30 PM</button>
+        </div>
+      </div>
+
+      <div class="form-section-title">Contact Information</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="book-fname" placeholder="Arjun" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="book-lname" placeholder="Reddy" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="book-email" placeholder="you@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="book-phone" placeholder="+91 98765 43210" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Special Requests (optional)</label>
+        <textarea id="book-notes" rows="3" placeholder="Dietary requirements, occasions, allergies…" style="resize:vertical"></textarea>
+      </div>
+
+      <div id="book-error" style="color:#a32d2d;font-size:0.82rem;margin-bottom:0.5rem;display:none"></div>
+      <button class="submit-btn" onclick="submitBooking()">Confirm Reservation</button>
+    </div>
+
+    <div class="confirmation-box" id="confirm-box">
+      <div class="confirm-icon">✓</div>
+      <div class="confirm-title">Reservation Requested!</div>
+      <div class="confirm-msg">
+        Thank you, <strong id="confirm-name"></strong>.<br>
+        Your table request for <strong id="confirm-details"></strong> has been received.<br>
+        We have received your request. Track your status below with your reference number. If SMTP is configured on the backend, a confirmation email will also be sent to <strong id="confirm-email"></strong>.
+      </div>
+      <div class="confirm-ref" id="confirm-ref">VRD-0000</div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-top:1rem">Questions? Call us at +91 40 2345 6789</p>
+    </div>
+
+    <div class="booking-form" style="margin-top:1.5rem">
+      <div class="section-label">Reservation Status</div>
+      <div class="section-title" style="font-size:1.6rem;margin-bottom:1rem">Track Your <em>Booking</em></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Reservation Reference</label>
+          <input type="text" id="lookup-reference" placeholder="VRD-1001" />
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="lookup-phone" placeholder="+91 98765 43210" />
+        </div>
+      </div>
+      <div id="lookup-error" style="color:#a32d2d;font-size:0.82rem;margin-bottom:0.5rem;display:none"></div>
+      <button class="submit-btn" style="margin-top:0" onclick="lookupBooking()">Check Status</button>
+      <div id="lookup-result" style="display:none;margin-top:1rem;padding:1rem 1.25rem;background:var(--sage-pale);border:1px solid var(--border);font-size:0.9rem;color:var(--charcoal)"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page contact-page">
+  <div class="contact-hero">
+    <div class="section-label">Find Us</div>
+    <div class="section-title">Contact <em>Verdana</em></div>
+  </div>
+  <div class="contact-grid">
+    <div>
+      <div class="contact-card" style="margin-bottom:1.5rem">
+        <h3>Get in Touch</h3>
+        <div class="contact-item">
+          <div class="contact-ico">📍</div>
+          <div class="contact-item-text">
+            <strong>Address</strong>
+            <span>12, Jubilee Hills Road No. 36,<br>Hyderabad, Telangana 500033</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico">📞</div>
+          <div class="contact-item-text">
+            <strong>Phone</strong>
+            <span>+91 40 2345 6789</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico">✉️</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <span>reservations@verdana.in</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico">🌐</div>
+          <div class="contact-item-text">
+            <strong>Website</strong>
+            <span>www.verdana.in</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <h3>Private Events</h3>
+        <p style="font-size:0.88rem;color:var(--muted);margin-bottom:1rem">For corporate dinners, celebrations, and private dining enquiries:</p>
+        <div class="contact-item">
+          <div class="contact-ico">👤</div>
+          <div class="contact-item-text">
+            <strong>Events Manager</strong>
+            <span>Priya Nair · events@verdana.in</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <h3>Opening Hours</h3>
+      <div class="hours-row"><span>Monday</span><span>Closed</span></div>
+      <div class="hours-row"><span>Tuesday – Thursday</span><span>12 PM – 3 PM, 7 PM – 11 PM</span></div>
+      <div class="hours-row"><span>Friday</span><span>12 PM – 3 PM, 7 PM – 11:30 PM</span></div>
+      <div class="hours-row"><span>Saturday</span><span>12 PM – 4 PM, 6:30 PM – 11:30 PM</span></div>
+      <div class="hours-row"><span>Sunday</span><span>12 PM – 4 PM, 7 PM – 10:30 PM</span></div>
+      <div style="margin-top:1.5rem; padding:1rem; background:var(--sage-pale); border:1px solid var(--border); font-size:0.85rem; color:var(--muted);">
+        Reservations strongly recommended. Walk-ins subject to availability.
+      </div>
+
+      <div style="margin-top:1.5rem;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.5!2d78.415!3d17.432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI1JzU1LjIiTiA3OMKwMjQnNTQuMCJF!5e0!3m2!1sen!2sin!4v1"
+          width="100%" height="220" style="border:1px solid var(--border); display:block;"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PAGE -->
+<div id="page-admin" class="page admin-page">
+  <!-- Login -->
+  <div class="admin-login" id="admin-login">
+    <div class="admin-login-box">
+      <h2>Admin Panel</h2>
+      <p>Enter your credentials to manage reservations</p>
+      <input type="text" id="admin-user" placeholder="Username" />
+      <input type="password" id="admin-pass" placeholder="Password" onkeydown="if(event.key==='Enter')adminLogin()" />
+      <div class="admin-error" id="admin-error">Invalid credentials. Try admin / verdana2024</div>
+      <button class="submit-btn" onclick="adminLogin()">Sign In</button>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem">Demo: admin / verdana2024</p>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="admin-dashboard" id="admin-dash" style="display:none">
+    <div class="admin-header">
+      <h2>Reservations Dashboard</h2>
+      <button class="logout-btn" onclick="adminLogout()">Sign Out</button>
+    </div>
+
+    <div class="admin-stats" id="admin-stats"></div>
+
+    <div class="admin-filters">
+      <button class="filter-btn active" onclick="filterBookings('all', this)">All</button>
+      <button class="filter-btn" onclick="filterBookings('pending', this)">Pending</button>
+      <button class="filter-btn" onclick="filterBookings('confirmed', this)">Confirmed</button>
+      <button class="filter-btn" onclick="filterBookings('filled', this)">Filled / Closed</button>
+    </div>
+
+    <div id="bookings-container"></div>
+  </div>
+</div>
+
+
+<script>
+const API_BASE = `${window.location.origin}/api`;
+let selectedSlot = null;
+let adminFilter = 'all';
+let adminToken = localStorage.getItem('verdana_admin_token') || '';
+let cachedBookings = [];
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+
+  if (id === 'booking') {
+    refreshSlots();
+  }
+
+  if (id === 'admin') {
+    syncAdminView();
+  }
+}
+
+(function initDateField() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  const s = d.toISOString().split('T')[0];
+  const dateInput = document.getElementById('book-date');
+  dateInput.min = s;
+  dateInput.value = s;
+  dateInput.addEventListener('change', refreshSlots);
+})();
+
+function switchTab(name) {
+  document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.menu-category').forEach(c => c.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+function showErr(msg) {
+  const e = document.getElementById('book-error');
+  e.textContent = msg;
+  e.style.display = 'block';
+}
+
+function hideErr() {
+  document.getElementById('book-error').style.display = 'none';
+}
+
+function showLookupError(msg) {
+  const e = document.getElementById('lookup-error');
+  e.textContent = msg;
+  e.style.display = 'block';
+}
+
+function hideLookupError() {
+  document.getElementById('lookup-error').style.display = 'none';
+}
+
+function renderSlotGrid(slots) {
+  const grid = document.getElementById('slot-grid');
+  grid.innerHTML = '';
+
+  selectedSlot = null;
+
+  slots.forEach(slot => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'slot-btn';
+    btn.textContent = slot.time;
+
+    if (slot.status === 'filled') {
+      btn.classList.add('filled');
+      btn.disabled = true;
+    } else {
+      btn.addEventListener('click', () => selectSlot(btn));
+    }
+
+    grid.appendChild(btn);
+  });
+}
+
+function selectSlot(btn) {
+  document.querySelectorAll('.slot-btn.selected').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedSlot = btn.textContent.trim();
+}
+
+async function refreshSlots() {
+  const date = document.getElementById('book-date').value;
+
+  try {
+    const res = await fetch(`${API_BASE}/slots?date=${encodeURIComponent(date)}`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Unable to load available slots.');
+    }
+
+    renderSlotGrid(data.slots);
+  } catch (error) {
+    document.getElementById('slot-grid').innerHTML = `<div style="grid-column:1/-1;color:#a32d2d;font-size:0.9rem">${error.message}</div>`;
+  }
+}
+
+async function submitBooking() {
+  const date = document.getElementById('book-date').value;
+  const guests = document.getElementById('book-guests').value;
+  const fname = document.getElementById('book-fname').value.trim();
+  const lname = document.getElementById('book-lname').value.trim();
+  const email = document.getElementById('book-email').value.trim();
+  const phone = document.getElementById('book-phone').value.trim();
+  const notes = document.getElementById('book-notes').value.trim();
+
+  if (!date) return showErr('Please select a date.');
+  if (!selectedSlot) return showErr('Please select a time slot.');
+  if (!fname || !lname) return showErr('Please enter your full name.');
+  if (!email || !email.includes('@')) return showErr('Please enter a valid email address.');
+  if (!phone) return showErr('Please enter your phone number.');
+
+  hideErr();
+
+  try {
+    const res = await fetch(`${API_BASE}/bookings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ date, time: selectedSlot, guests, fname, lname, email, phone, notes })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || 'Could not submit reservation.');
+    }
+
+    document.getElementById('confirm-name').textContent = `${fname} ${lname}`;
+    document.getElementById('confirm-details').textContent = `${guests} on ${new Date(date).toLocaleDateString('en-IN', {weekday:'long', year:'numeric', month:'long', day:'numeric'})} at ${selectedSlot}`;
+    document.getElementById('confirm-email').textContent = email;
+    document.getElementById('confirm-ref').textContent = data.booking.reference;
+    document.getElementById('lookup-reference').value = data.booking.reference;
+    document.getElementById('lookup-phone').value = phone;
+
+    document.getElementById('booking-form-wrap').style.display = 'none';
+    document.getElementById('confirm-box').classList.add('show');
+
+    ['book-fname','book-lname','book-email','book-phone','book-notes'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+    refreshSlots();
+  } catch (error) {
+    showErr(error.message);
+  }
+}
+
+async function lookupBooking() {
+  const reference = document.getElementById('lookup-reference').value.trim();
+  const phone = document.getElementById('lookup-phone').value.trim();
+
+  if (!reference && !phone) {
+    return showLookupError('Enter a reservation reference or a phone number.');
+  }
+
+  hideLookupError();
+
+  try {
+    const qs = new URLSearchParams();
+    if (reference) qs.set('reference', reference);
+    if (phone) qs.set('phone', phone);
+
+    const res = await fetch(`${API_BASE}/bookings/lookup?${qs.toString()}`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Reservation lookup failed.');
+    }
+
+    const badgeColor = data.booking.status === 'confirmed'
+      ? 'var(--sage-dark)'
+      : data.booking.status === 'filled'
+      ? 'var(--gold)'
+      : 'var(--muted)';
+
+    document.getElementById('lookup-result').style.display = 'block';
+    document.getElementById('lookup-result').innerHTML = `
+      <strong>${data.booking.reference}</strong><br>
+      Guest: ${data.booking.guestName}<br>
+      Reservation: ${data.booking.date} at ${data.booking.time}<br>
+      Guests: ${data.booking.guests}<br>
+      Status: <strong style="color:${badgeColor};text-transform:uppercase">${data.booking.status}</strong>
+    `;
+  } catch (error) {
+    showLookupError(error.message);
+    document.getElementById('lookup-result').style.display = 'none';
+  }
+}
+
+function getAuthHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${adminToken}`
+  };
+}
+
+async function adminLogin() {
+  const username = document.getElementById('admin-user').value.trim();
+  const password = document.getElementById('admin-pass').value;
+
+  try {
+    const res = await fetch(`${API_BASE}/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Invalid credentials.');
+    }
+
+    adminToken = data.token;
+    localStorage.setItem('verdana_admin_token', adminToken);
+    document.getElementById('admin-error').style.display = 'none';
+    syncAdminView();
+  } catch (error) {
+    const err = document.getElementById('admin-error');
+    err.textContent = error.message;
+    err.style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  adminToken = '';
+  localStorage.removeItem('verdana_admin_token');
+  document.getElementById('admin-login').style.display = 'flex';
+  document.getElementById('admin-dash').style.display = 'none';
+  document.getElementById('admin-user').value = '';
+  document.getElementById('admin-pass').value = '';
+}
+
+async function syncAdminView() {
+  if (!adminToken) {
+    document.getElementById('admin-login').style.display = 'flex';
+    document.getElementById('admin-dash').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-dash').style.display = 'block';
+
+  try {
+    const [statsRes, bookingsRes] = await Promise.all([
+      fetch(`${API_BASE}/admin/stats`, { headers: getAuthHeaders() }),
+      fetch(`${API_BASE}/admin/bookings?status=${encodeURIComponent(adminFilter)}`, { headers: getAuthHeaders() })
+    ]);
+
+    if (statsRes.status === 401 || bookingsRes.status === 401) {
+      adminLogout();
+      return;
+    }
+
+    const stats = await statsRes.json();
+    const bookingsData = await bookingsRes.json();
+
+    document.getElementById('admin-stats').innerHTML = `
+      <div class="admin-stat"><div class="admin-stat-num">${stats.total}</div><div class="admin-stat-label">Total Requests</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" style="color:var(--gold)">${stats.pending}</div><div class="admin-stat-label">Pending</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" style="color:var(--sage-dark)">${stats.confirmed}</div><div class="admin-stat-label">Confirmed</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" style="color:var(--muted)">${stats.filled}</div><div class="admin-stat-label">Filled / Closed</div></div>
+    `;
+
+    cachedBookings = bookingsData.bookings || [];
+    renderTable();
+  } catch (error) {
+    document.getElementById('bookings-container').innerHTML = `<div class="empty-state">${error.message}</div>`;
+  }
+}
+
+function filterBookings(filter, btn) {
+  adminFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  syncAdminView();
+}
+
+function renderTable() {
+  const container = document.getElementById('bookings-container');
+  if (!cachedBookings.length) {
+    container.innerHTML = `<div class="empty-state">No ${adminFilter === 'all' ? '' : adminFilter + ' '}reservations found.</div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <table class="bookings-table">
+      <thead>
+        <tr>
+          <th>Ref</th><th>Guest</th><th>Date & Time</th><th>Guests</th>
+          <th>Contact</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${cachedBookings.map((b) => {
+          const actions = b.status === 'pending'
+            ? `<button class="action-btn btn-confirm" onclick="updateStatus('${b.id}','confirmed')">Confirm</button>
+               <button class="action-btn btn-fill" onclick="updateStatus('${b.id}','filled')">Mark Filled</button>`
+            : b.status === 'confirmed'
+            ? `<button class="action-btn btn-fill" onclick="updateStatus('${b.id}','filled')">Mark Filled</button>`
+            : `<span style="font-size:0.78rem;color:var(--muted)">Closed</span>`;
+          return `<tr>
+            <td style="font-family:var(--font-display);color:var(--sage-dark)">${b.reference}</td>
+            <td><strong>${b.fname} ${b.lname}</strong>${b.notes ? `<br><span style="font-size:0.78rem;color:var(--muted)">${b.notes.slice(0,40)}${b.notes.length>40?'…':''}</span>` : ''}</td>
+            <td>${b.date}<br><span style="color:var(--sage-dark)">${b.time}</span></td>
+            <td>${b.guests}</td>
+            <td>${b.email}<br><span style="color:var(--muted);font-size:0.82rem">${b.phone}</span></td>
+            <td><span class="status-badge status-${b.status}">${b.status}</span><br><span style="display:block;margin-top:0.35rem;color:var(--muted);font-size:0.72rem">${b.notificationStatus || 'not-sent'}</span></td>
+            <td>${actions}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+async function updateStatus(id, status) {
+  try {
+    const res = await fetch(`${API_BASE}/admin/bookings/${id}/status`, {
+      method: 'PATCH',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ status })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Could not update booking status.');
+    }
+
+    await syncAdminView();
+    if (document.getElementById('page-booking').classList.contains('active')) {
+      refreshSlots();
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+window.addEventListener('load', () => {
+  refreshSlots();
+  syncAdminView();
+});
+</script>
+
+</body>
+</html>

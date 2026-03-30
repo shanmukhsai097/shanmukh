@@ -1,0 +1,37 @@
+{
+  "sequence": 1000,
+  "bookings": [
+    {
+      "id": "040c36aa-c778-4b2f-b989-6884f2b30de2",
+      "reference": "VRD-1001",
+      "date": "2026-03-31",
+      "time": "07:30 PM",
+      "guests": "2 Guests",
+      "fname": "Aarav",
+      "lname": "Mehta",
+      "email": "aarav@example.com",
+      "phone": "+91 98765 11111",
+      "notes": "Window seat preferred",
+      "status": "pending",
+      "created": "2026-03-30T17:10:51.340Z",
+      "updatedAt": "2026-03-30T17:10:51.340Z",
+      "notificationStatus": "not-sent"
+    },
+    {
+      "id": "b1100a11-9b89-4430-9c70-964a627f0731",
+      "reference": "VRD-1002",
+      "date": "2026-04-01",
+      "time": "08:30 PM",
+      "guests": "4 Guests",
+      "fname": "Nisha",
+      "lname": "Kapoor",
+      "email": "nisha@example.com",
+      "phone": "+91 98765 22222",
+      "notes": "Birthday dinner",
+      "status": "confirmed",
+      "created": "2026-03-30T17:10:51.340Z",
+      "updatedAt": "2026-03-30T17:10:51.340Z",
+      "notificationStatus": "sent-demo"
+    }
+  ]
+}
